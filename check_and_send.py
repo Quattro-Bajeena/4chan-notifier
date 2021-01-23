@@ -6,8 +6,8 @@ from get_board_data import download_threads_time_check, download_board_data
 from pushover import send_notification
 
 
-def check_boards(send_only_if_new: bool):
-    download_threads_time_check(datetime.timedelta(minutes=30))
+def check_boards(send_only_if_new: bool, time_threshhold=1):
+    download_threads_time_check(datetime.timedelta(minutes=time_threshhold))
 
     threads = get_threads(data_folder)
     title = "Current threads with searched words"
@@ -21,8 +21,8 @@ def check_boards(send_only_if_new: bool):
         if len(threads[board]['new']) != 0:
             any_new = True
 
+        message += f"---/{board}/---\n"
         if len(threads[board]['current']) != 0:
-            message += f"---/{board}/---\n"
             message += "Current: \n"
             message += threads_to_str(threads[board]['current'], punctuator='-')
         if len(threads[board]['new']) != 0:
@@ -41,4 +41,5 @@ def check_boards(send_only_if_new: bool):
         print("Didn't send anything")
 
 
-check_boards(send_only_if_new=False)
+if __name__ == '__main__':
+    check_boards(send_only_if_new=False, time_threshhold=1)
