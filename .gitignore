@@ -1,0 +1,5 @@
+**/__pycache__
+/board_data
+/venv
+/.idea
+get_board_info.log
