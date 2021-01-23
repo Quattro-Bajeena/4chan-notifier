@@ -3,3 +3,4 @@
 /venv
 /.idea
 get_board_info.log
+.env

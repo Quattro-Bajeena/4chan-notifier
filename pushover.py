@@ -1,7 +1,11 @@
 import requests
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-APP_TOKEN = 'akdk1y8ckyu8xj5ydom48auqb5zptd'
-USER_KEY = 'uc3u2h6j9r3pidhtm67e8mt3frzs1t'
+APP_TOKEN = os.getenv('PUSHOVER_APP_TOKEN')
+USER_KEY = os.getenv('PUSHOVER_USER_KEY')
+
 api_endpoint = 'https://api.pushover.net/1/messages.json'
 
 
