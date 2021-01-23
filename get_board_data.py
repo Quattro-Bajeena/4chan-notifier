@@ -43,7 +43,7 @@ def download_board_data():
             resp = requests.get(request)
 
             if resp.status_code == 200:
-                path = Path(data_folder) / f"{board}-{endpoint_name} {now}.json"
+                path = Path(__file__).parent / Path(data_folder) / f"{board}-{endpoint_name} {now}.json"
                 with open(path, 'w') as file:
                     json.dump(resp.json(), file, indent=4)
 
