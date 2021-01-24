@@ -29,16 +29,18 @@ def check_boards(send_only_if_new: bool, time_threshhold=1):
             message += "New: \n"
             message += threads_to_str(threads[board]['new'], punctuator='-')
 
+    print("MESSAGE:")
+    print(title)
     print(message)
 
-    # if not send_only_if_new:
-    #     send_notification(title, message)
-    #     print("Sent notification")
-    # elif send_only_if_new and any_new:
-    #     send_notification(title, message)
-    #     print("Sent notification")
-    # else:
-    #     print("Didn't send anything")
+    if not send_only_if_new:
+        send_notification(title, message)
+        print("Sent notification")
+    elif send_only_if_new and any_new:
+        send_notification(title, message)
+        print("Sent notification")
+    else:
+        print("Didn't send anything")
 
 
 if __name__ == '__main__':

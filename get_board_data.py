@@ -13,8 +13,12 @@ logging.basicConfig(filename='get_board_info.log', level=logging.DEBUG, format='
                     datefmt='%d-%m-%Y %H:%M:%S')
 
 if not data_path.is_dir():
-    print("making data folder")
     os.mkdir(data_path)
+
+    message = f"data folder not found, created {data_path}"
+    logging.info(message)
+    print(message)
+
 
 # returns true if the most recent file is older than the threshold
 def check_last_download_time(threshold: datetime.timedelta) -> bool:
@@ -56,4 +60,6 @@ def download_threads_time_check(threshold: datetime.timedelta):
     if check_last_download_time(threshold):
         download_board_data()
     else:
-        print("files too new")
+        message = f"didn't download, files less old than {threshold}"
+        logging.info(message)
+        print(message)
