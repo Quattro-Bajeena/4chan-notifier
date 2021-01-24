@@ -9,7 +9,7 @@ from pathlib import Path
 from boards_info import boards, endpoints, domain, data_path, date_format
 from parse_board_data import parse_data_from_filepath
 
-logging.basicConfig(filename='get_board_info.log', level=logging.DEBUG, format='%(asctime)s %(message)s',
+logging.basicConfig(filename=Path(__file__).parent / 'get_board_info.log', level=logging.DEBUG, format='%(asctime)s %(message)s',
                     datefmt='%d-%m-%Y %H:%M:%S')
 
 if not data_path.is_dir():
