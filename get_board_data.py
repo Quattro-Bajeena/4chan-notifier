@@ -6,18 +6,18 @@ import time
 import os
 from pathlib import Path
 
-from boards_info import boards, endpoints, domain, data_folder, date_format
+from boards_info import boards, endpoints, domain, data_path, date_format
 from parse_board_data import parse_data_from_filepath
 
 logging.basicConfig(filename='get_board_info.log', level=logging.DEBUG, format='%(asctime)s %(message)s',
                     datefmt='%d-%m-%Y %H:%M:%S')
 
-if not Path(data_folder).is_dir():
-    os.mkdir(data_folder)
+if not data_path.is_dir():
+    print("making data folder")
+    os.mkdir(data_path)
 
 # returns true if the most recent file is older than the threshold
 def check_last_download_time(threshold: datetime.timedelta) -> bool:
-    data_path = Path(data_folder)
     dates = []
 
     now = datetime.datetime.now()
@@ -43,7 +43,7 @@ def download_board_data():
             resp = requests.get(request)
 
             if resp.status_code == 200:
-                path = Path(__file__).parent / Path(data_folder) / f"{board}-{endpoint_name} {now}.json"
+                path = data_path / f"{board}-{endpoint_name} {now}.json"
                 with open(path, 'w') as file:
                     json.dump(resp.json(), file, indent=4)
 

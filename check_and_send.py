@@ -1,7 +1,7 @@
 import datetime
 
 from parse_board_data import get_threads, filter_threads, threads_to_str
-from boards_info import data_folder, searched_words
+from boards_info import data_path, searched_words
 from get_board_data import download_threads_time_check, download_board_data
 from pushover import send_notification
 
@@ -9,7 +9,7 @@ from pushover import send_notification
 def check_boards(send_only_if_new: bool, time_threshhold=1):
     download_threads_time_check(datetime.timedelta(minutes=time_threshhold))
 
-    threads = get_threads(data_folder)
+    threads = get_threads(data_path)
     title = "Current threads with searched words"
     message = ''
 
@@ -31,14 +31,14 @@ def check_boards(send_only_if_new: bool, time_threshhold=1):
 
     print(message)
 
-    if not send_only_if_new:
-        send_notification(title, message)
-        print("Sent notification")
-    elif send_only_if_new and any_new:
-        send_notification(title, message)
-        print("Sent notification")
-    else:
-        print("Didn't send anything")
+    # if not send_only_if_new:
+    #     send_notification(title, message)
+    #     print("Sent notification")
+    # elif send_only_if_new and any_new:
+    #     send_notification(title, message)
+    #     print("Sent notification")
+    # else:
+    #     print("Didn't send anything")
 
 
 if __name__ == '__main__':

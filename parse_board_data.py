@@ -35,8 +35,7 @@ def get_threads_from_file(filepath: Path) -> (str, list):
 
 
 # returns a dict that as a keys has names of boards and vaules a list of threads
-def get_threads(folder_path: str) -> dict:
-    data_path = Path(folder_path)
+def get_threads(data_path: Path) -> dict:
     catalog_files = {}
 
     # getting date and path info of every json file that is in data folder
