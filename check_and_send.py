@@ -10,7 +10,7 @@ from pushover import send_notification
 
 load_dotenv()
 
-def check_boards(send_only_if_new: bool, check_comment = False, time_threshold=1, debug_mode = False):
+def check_boards(send_only_if_new: bool, check_comment = False, time_threshold=1, debug_mode : bool = False):
     download_threads_time_check(boards, endpoints, datetime.timedelta(minutes=time_threshold))
 
     threads = get_threads(boards, data_path)
@@ -54,7 +54,7 @@ def check_boards(send_only_if_new: bool, check_comment = False, time_threshold=1
 
 
 if __name__ == '__main__':
-    debug_mode = bool(os.getenv('DEBUG_MODE'))
+    debug_mode = bool(int(os.getenv('DEBUG_MODE')))
 
     if debug_mode:
         time_threshold = 5
