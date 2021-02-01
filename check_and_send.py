@@ -10,8 +10,8 @@ from pushover import send_notification
 
 load_dotenv()
 
-def check_boards(send_only_if_new: bool, check_comment = False, time_threshold=1, debug_mode : bool = False):
-    download_threads_time_check(boards, endpoints, datetime.timedelta(minutes=time_threshold))
+def check_boards(send_only_if_new: bool, check_comment = False, minute_threshold : float = 1, debug_mode : bool = False):
+    download_threads_time_check(boards, endpoints, datetime.timedelta(minutes=minute_threshold))
 
     threads = get_threads(boards, data_path)
     title = "Current threads with searched words"
@@ -55,10 +55,8 @@ def check_boards(send_only_if_new: bool, check_comment = False, time_threshold=1
 
 if __name__ == '__main__':
     debug_mode = bool(int(os.getenv('DEBUG_MODE')))
+    minute_threshold = float(os.getenv('MINUTE_THRESHOLD'))
+    send_only_if_new = bool(int(os.getenv('SEND_ONLY_IF_NEW')))
+    check_comment = bool(int(os.getenv('CHECK_COMMENT')))
 
-    if debug_mode:
-        time_threshold = 5
-    else:
-        time_threshold = 30
-
-    check_boards(send_only_if_new=False, check_comment=False, time_threshold=time_threshold, debug_mode=debug_mode)
+    check_boards(send_only_if_new=send_only_if_new, check_comment=check_comment, time_threshold=minute_threshold, debug_mode=debug_mode)
