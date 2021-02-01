@@ -6,7 +6,7 @@ import time
 import os
 from pathlib import Path
 
-from boards_info import boards, endpoints, domain, data_path, date_format
+from setup import domain, data_path, date_format
 from parse_board_data import parse_data_from_filepath
 
 logging.basicConfig(filename=Path(__file__).parent / 'get_board_info.log', level=logging.DEBUG, format='%(asctime)s %(message)s',
@@ -39,7 +39,7 @@ def check_last_download_time(threshold: datetime.timedelta) -> bool:
         return True
 
 
-def download_board_data():
+def download_board_data(boards, endpoints):
     now = datetime.datetime.now().strftime(date_format)
     for board in boards:
         for endpoint_name, endpoint_url in endpoints.items():
@@ -56,10 +56,11 @@ def download_board_data():
     logging.info("DONE")
 
 
-def download_threads_time_check(threshold: datetime.timedelta):
+def download_threads_time_check(boards, endpoints, threshold: datetime.timedelta):
     if check_last_download_time(threshold):
-        download_board_data()
+        download_board_data(boards, endpoints)
+        message = "downloaded the file"
     else:
         message = f"didn't download, files less old than {threshold}"
-        logging.info(message)
-        print(message)
+    logging.info(message)
+    print(message)

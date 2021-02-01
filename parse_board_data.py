@@ -1,8 +1,9 @@
 import json
+import html
 from pathlib import Path
 import datetime
 
-from boards_info import domain, boards, endpoints, data_folder, date_format
+from setup import date_format
 
 
 # catalog - json response from 4chan API, returns a list of threads
@@ -35,14 +36,14 @@ def get_threads_from_file(filepath: Path) -> (str, list):
 
 
 # returns a dict that as a keys has names of boards and vaules a list of threads
-def get_threads(data_path: Path) -> dict:
+def get_threads(boards, data_path: Path) -> dict:
     catalog_files = {}
 
     # getting date and path info of every json file that is in data folder
     for file_path in data_path.glob('*json'):
         board, endpoint_type, date = parse_data_from_filepath(file_path)
 
-        if endpoint_type != 'Catalog':
+        if endpoint_type != 'Catalog' or board not in boards:
             continue
 
         if board not in catalog_files:
@@ -123,9 +124,12 @@ def threads_to_str(threads, punctuator = '') -> str:
     output = ''
     for thread in threads:
         if 'sub' in thread:
-            output += punctuator + ' ' + thread['sub'] + '\n'
+            thread['sub'] = html.unescape(thread['sub'])
+            output += f"{punctuator} {thread['sub']}\n"
         elif 'com' in thread:
+            thread['com'] = html.unescape(thread['com'])
             output += punctuator + ' ' +"NO SUBJECT: " + thread['com'][:40] + (thread['com'][40:] and '..') + '\n'
+            output += f"{punctuator} NO SUBJECT: {thread['com'][:40]}{(thread['com'][40:] and '..')}\n"
         else:
-            output += punctuator + ' ' +"NO SUBJECT OR COMMENT" + '\n'
+            output += f"{punctuator} NO SUBJECT OR COMMENT\n"
     return output
