@@ -59,4 +59,4 @@ if __name__ == '__main__':
     send_only_if_new = bool(int(os.getenv('SEND_ONLY_IF_NEW')))
     check_comment = bool(int(os.getenv('CHECK_COMMENT')))
 
-    check_boards(send_only_if_new=send_only_if_new, check_comment=check_comment, time_threshold=minute_threshold, debug_mode=debug_mode)
+    check_boards(send_only_if_new=send_only_if_new, check_comment=check_comment, minute_threshold=minute_threshold, debug_mode=debug_mode)
