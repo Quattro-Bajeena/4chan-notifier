@@ -4,3 +4,4 @@
 /.idea
 get_board_info.log
 .env
+config.yml

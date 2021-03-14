@@ -1,17 +1,13 @@
-import datetime
-from dotenv import load_dotenv
-import os
+from datetime import timedelta
 
 from parse_board_data import get_threads, filter_threads, threads_to_str
-from setup import boards, endpoints, data_path, searched_words
+from setup import boards, endpoints, data_path, searched_words, config
 from get_board_data import download_threads_time_check
 from pushover import send_notification
 
 
-load_dotenv()
-
 def check_boards(send_only_if_new: bool, check_comment = False, minute_threshold : float = 1, debug_mode : bool = False):
-    download_threads_time_check(boards, endpoints, datetime.timedelta(minutes=minute_threshold))
+    download_threads_time_check(boards, endpoints, timedelta(minutes=minute_threshold))
 
     threads = get_threads(boards, data_path)
     title = "Current threads with searched words"
@@ -52,9 +48,10 @@ def check_boards(send_only_if_new: bool, check_comment = False, minute_threshold
 
 
 if __name__ == '__main__':
-    debug_mode = bool(int(os.getenv('DEBUG_MODE')))
-    minute_threshold = float(os.getenv('MINUTE_THRESHOLD'))
-    send_only_if_new = bool(int(os.getenv('SEND_ONLY_IF_NEW')))
-    check_comment = bool(int(os.getenv('CHECK_COMMENT')))
 
-    check_boards(send_only_if_new=send_only_if_new, check_comment=check_comment, minute_threshold=minute_threshold, debug_mode=debug_mode)
+    check_boards(
+        send_only_if_new=config['SEND_ONLY_IF_NEW'],
+        check_comment=config['CHECK_COMMENT'],
+        minute_threshold=config['MINUTE_THRESHOLD'], 
+        debug_mode=config['DEBUG_MODE']
+    )
