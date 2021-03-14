@@ -1,18 +1,17 @@
 import requests
-import os
-from dotenv import load_dotenv
-load_dotenv()
 
-APP_TOKEN = os.getenv('PUSHOVER_APP_TOKEN')
-USER_KEY = os.getenv('PUSHOVER_USER_KEY')
+from setup import config
+
+app_token = config['PUSHOVER_APP_TOKEN']
+user_key = config['PUSHOVER_USER_KEY']
 
 api_endpoint = 'https://api.pushover.net/1/messages.json'
 
 
 def send_notification(title, message) -> requests.Response:
     parameters = {
-        'token': APP_TOKEN,
-        'user': USER_KEY,
+        'token': app_token,
+        'user': user_key,
         'message': message,
         'title': title
     }
