@@ -27,7 +27,7 @@ def parse_data_from_filepath(filepath: Path):
 
 
 # returns tuple of board and list of threads
-def get_threads_from_file(filepath: Path) -> (str, list):
+def get_threads_from_file(filepath: Path):
     board, endpoint_type, date = parse_data_from_filepath(filepath)
     with open(filepath, 'r') as file:
         data = json.load(file)
@@ -61,19 +61,25 @@ def get_threads(boards, data_path: Path) -> dict:
 
     threads_summary = {}
     for board, file_paths in catalog_files.items():
+        #file paths - Path objects to 2 last catalog downloads (or maybe 1 if it's the first time downloading)
         threads_summary[board] = {}
 
         current_threads = get_threads_from_file(file_paths[0])[1]
         current_ids = [thread['no'] for thread in current_threads]
 
 
+
         if len(file_paths) > 1:
             previous_threads = get_threads_from_file(file_paths[1])[1]
             previous_ids = [thread['no'] for thread in previous_threads]
 
+            
+
             new_ids = list(set(current_ids).difference(previous_ids))
             current_ids = list(set(current_ids).difference(new_ids))
+
             new_threads = [thread for thread in current_threads if thread['no'] in new_ids]
+            current_threads = [thread for thread in current_threads if thread['no'] in current_ids]
         else:
             new_threads = current_threads
             current_threads = []
@@ -95,14 +101,12 @@ def filter_threads(threads, keywords: list, check_comment=True):
         accept = False
 
         for keyword in keywords:
-            if check_comment:
-                if 'sub' in thread and keyword in thread['sub'].lower():
-                    accept = True
-                if 'com' in thread and keyword in thread['com'].lower():
-                    accept = True
+            
+            if 'sub' in thread and keyword in thread['sub'].lower():
+                accept = True
 
-            else:
-                if 'sub' in thread and keyword in thread['sub'].lower():
+            if check_comment:
+                if 'com' in thread and keyword in thread['com'].lower():
                     accept = True
 
         if accept:

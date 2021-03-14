@@ -41,8 +41,6 @@ def check_boards(send_only_if_new: bool, check_comment = False, minute_threshold
     if debug_mode:
         print("DEBUG MODE - didint sent message")
         return
-
-
     if not send_only_if_new:
         send_notification(title, message)
         print("Sent notification")

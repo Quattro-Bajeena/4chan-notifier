@@ -1,7 +1,7 @@
 from pathlib import Path
 
 domain = "https://a.4cdn.org"
-boards = ("m", "a")
+boards = ("m","a")
 endpoints = {
     "Catalog": "catalog.json",
     # "Archive": "archive.json",
