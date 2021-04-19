@@ -1,0 +1,18 @@
+# To use rename the file to just "config.yml"
+boards: ["m", "a"]
+searched_words: ['art', 'draw', 'sing']
+
+PUSHOVER_APP_TOKEN: # token of your pushover app
+PUSHOVER_USER_KEY: # your pushover user key
+
+# Debug Mode doesnt actually sends the messges, only dispalyes them to standard output
+DEBUG_MODE: True
+
+# message won't be sent if the script has been activated in last X minutes
+MINUTE_THRESHOLD: 5
+
+# Send only if there are any new threads
+SEND_ONLY_IF_NEW: False
+
+# Check not only thread title, but the content of OP
+CHECK_COMMENT: False
